@@ -15,7 +15,7 @@ print("\n1. MedicineRepository")
 print("-" * 40)
 medicines = med_repo.get_all()
 print(f"get_all() - записів: {len(medicines)}")
-for med in medicines[:3]:
+for med in medicines[:10]:
     print(f"  {med.medicine_name} - {med.price} грн")
 
 if medicines:
@@ -41,17 +41,38 @@ print("\n4. Створення нового запису")
 print("-" * 40)
 try:
     new = med_repo.create(
-        medicine_name="Тестові ліки",
+        medicine_name="Тестові ліки номер 2",
         category="Тест",
         manufacturer="Тест",
-        price=50.00,
-        quantity_in_stock=10,
+        price=150.00,
+        quantity_in_stock=20,
         prescription_required=False
     )
     print(f"Створено: {new.medicine_name}")
     print(f"Тепер ліків: {len(med_repo.get_all())}")
 except Exception as e:
     print(f"Помилка: {e}")
+
+
+print("\n5. Видалення запису")
+print("-" * 40)
+
+all_meds = med_repo.get_all()
+if all_meds:
+    last_id = all_meds[-1].medicine_id
+    print(f"Спробуємо видалити запис ID={last_id}")
+    
+    count_before = len(all_meds)
+    deleted = med_repo.delete(last_id)
+    
+    if deleted:
+        count_after = len(med_repo.get_all())
+        print(f"✅ Видалено успішно!")
+        print(f"   Було: {count_before}, Стало: {count_after}")
+    else:
+        print("❌ Не вдалося видалити")
+
+
 
 print("\n" + "=" * 60)
 print(f"Ліки: {len(med_repo.get_all())}")

@@ -40,11 +40,9 @@ class BaseRepository(IRepository[T]):
     
     def get_by_id(self, id: int) -> Optional[T]:
         try:
-        # Спробуємо знайти за стандартним id
             return self.model_class.objects.get(id=id)
         except (self.model_class.DoesNotExist, Exception):
             try:
-            # Якщо не вийшло, шукаємо за medicine_id
                 return self.model_class.objects.get(medicine_id=id)
             except self.model_class.DoesNotExist:
                 print(f"{self.model_class.__name__} з ID {id} не знайдено")
@@ -93,7 +91,7 @@ class BaseRepository(IRepository[T]):
             return []
 
 
-# КОНКРЕТНІ РЕПОЗИТОРІЇ
+# РЕПОЗИТОРІЇ
 from .models import Medicine, Customer, Pharmacist
 
 class MedicineRepository(BaseRepository):
